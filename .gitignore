@@ -4,3 +4,16 @@ autom4te.cache/
 config.h.in
 config.h.in~
 configure
+.libs/
+Makefile
+config.h
+config.log
+config.status
+libspooky.la
+libtool
+src/.deps/
+src/.dirstamp
+src/.libs/
+src/spooky.lo
+src/spooky.o
+stamp-h1
