@@ -1,14 +1,12 @@
 LIBSPOOKY
 =========
 
-Libspooky is a implementation of Bob Jenkin's spooky hash algorithm,
-that has been toolized with GNU autotools, making it easier to install
-via a package manager.
+Libspooky is a C implementation of Bob Jenkin's spooky hash algorithm.
 
 INSTALLATION
 ------------
 
-To install libspooky from source execute the following steps.
+To install libspooky from source execute the following steps:
 
 	git clone https://github.com/GrayTShirt/libspooky.git
 	cd libspooky
@@ -65,7 +63,7 @@ SEE ALSO
 
 * http://burtleburtle.net/bob/hash/spooky.html
 
-LICENSE & COPYWRITE
+LICENSE & COPYRIGHT
 -------------------
 
-Libspooky is licensed under the GNU GPL v3 license, see the include LICENSE file.
+Libspooky is licensed under the GPL v3 license, see the included LICENSE file for details.
