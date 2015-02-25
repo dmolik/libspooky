@@ -1,3 +1,26 @@
+LIBSPOOKY
+=========
+
+Libspooky is a implementation of Bob Jenkin's spooky hash algorithm,
+that has been toolized with GNU autotools, making it easier to install
+via a package manager.
+
+INSTALLATION
+------------
+
+To install libspooky from source execute the following steps.
+
+	git clone https://github.com/GrayTShirt/libspooky.git
+	cd libspooky
+	./bootstrap
+	./configure
+	make
+	make install
+
+
+DESCRIPTION
+-----------
+
 This is a C version of Bob Jenkin's spooky hash. The only advantage over
 Bob's original version is that it is in C, not C++ and comes with
 some test and benchmark code.
@@ -8,8 +31,8 @@ contenders like CityHash.
 
 Quoting Bobs original description:
 
- SpookyHash: a 128-bit noncryptographic hash function
- By Bob Jenkins, public domain
+SpookyHash: a 128-bit noncryptographic hash function
+By Bob Jenkins, public domain
 
 	Oct 31 2010: alpha, framework + SpookyHash::Mix appears right
 	Oct 31 2011: alpha again, Mix only good to 2^^69 but rest appears right
@@ -20,19 +43,24 @@ Quoting Bobs original description:
 	Mar 30 2012: 3 bytes/cycle, not 4.  Alpha was 4 but wasn't thorough enough.
 	Apr 27 2012: C version updated by Ziga Zupanec (agiz@github)
 	Feb 25 2015: C version converted to system library (graytshirt@github)
- 
- Up to 3 bytes/cycle for long messages.  Reasonably fast for short messages.
- All 1 or 2 bit deltas achieve avalanche within 1% bias per output bit.
 
- This was developed for and tested on 64-bit x86-compatible processors.
- It assumes the processor is little-endian.  There is a macro
- controlling whether unaligned reads are allowed (by default they are).
- This should be an equally good hash on big-endian machines, but it will
- compute different results on them than on little-endian machines.
+Up to 3 bytes/cycle for long messages.  Reasonably fast for short messages.
+All 1 or 2 bit deltas achieve avalanche within 1% bias per output bit.
 
- Google's CityHash has similar specs to SpookyHash, and CityHash is faster
- on some platforms.  MD4 and MD5 also have similar specs, but they are orders
- of magnitude slower.  CRCs are two or more times slower, but unlike 
- SpookyHash, they have nice math for combining the CRCs of pieces to form 
- the CRCs of wholes.  There are also cryptographic hashes, but those are even 
- slower than MD5.
+This was developed for and tested on 64-bit x86-compatible processors.
+It assumes the processor is little-endian.  There is a macro
+controlling whether unaligned reads are allowed (by default they are).
+This should be an equally good hash on big-endian machines, but it will
+compute different results on them than on little-endian machines.
+
+Google's CityHash has similar specs to SpookyHash, and CityHash is faster
+on some platforms.  MD4 and MD5 also have similar specs, but they are orders
+of magnitude slower.  CRCs are two or more times slower, but unlike 
+SpookyHash, they have nice math for combining the CRCs of pieces to form 
+the CRCs of wholes.  There are also cryptographic hashes, but those are even 
+slower than MD5.
+
+LICENSE & COPYWRITE
+-------------------
+
+Libspooky is licensed under the GNU GPL v3 license, see the include LICENSE file.
