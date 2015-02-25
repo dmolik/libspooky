@@ -60,6 +60,11 @@ SpookyHash, they have nice math for combining the CRCs of pieces to form
 the CRCs of wholes.  There are also cryptographic hashes, but those are even 
 slower than MD5.
 
+SEE ALSO
+--------
+
+* http://burtleburtle.net/bob/hash/spooky.html
+
 LICENSE & COPYWRITE
 -------------------
 
