@@ -30,6 +30,18 @@
 #ifndef _SPOOKY_H
 #define _SPOOKY_H
 
+#define SPOOKY_VERSION_MAJOR 1
+#define SPOOKY_VERSION_MINOR 0
+#define SPOOKY_VERSION_PATCH 0
+
+#define SPOOKY_MAKE_VERSION(major, minor, patch) \
+          ((major) * 10000 + \
+           (minor) *   100 + \
+           (patch))
+#define SPOOKY_VERSION \
+        SPOOKY_MAKE_VERSION(SPOOKY_VERSION_MAJOR, \
+                           SPOOKY_VERSION_MINOR, \
+                           SPOOKY_VERSION_PATCH)
 #include <stdint.h>
 #include <stddef.h>
 
