@@ -12,8 +12,7 @@
 //   Assumes little endian ness. Caller has to check this case.
 
 #include <memory.h>
-
-#include "spooky-c.h"
+#include <spooky.h>
 
 #if defined(__i386__) || defined(__x86_64__) // add more architectures here
 #define ALLOW_UNALIGNED_READS 1
@@ -219,13 +218,11 @@ void spooky_shorthash
 	c = SC_CONST;
 	d = SC_CONST;
 
-	if (length > 15)
-	{
+	if (length > 15) {
 		const uint64_t *endp = u.p64 + (length/32)*4;
 
 		// handle all complete sets of 32 bytes
-		for (; u.p64 < endp; u.p64 += 4)
-		{
+		for (; u.p64 < endp; u.p64 += 4) {
 			c += u.p64[0];
 			d += u.p64[1];
 			short_mix(&a, &b, &c, &d);
@@ -234,8 +231,7 @@ void spooky_shorthash
 		}
 
 		// Handle the case of 16+ remaining bytes.
-		if (remainder >= 16)
-		{
+		if (remainder >= 16) {
 			c += u.p64[0];
 			d += u.p64[1];
 			short_mix(&a, &b, &c, &d);
@@ -292,12 +288,7 @@ void spooky_shorthash
 	*hash2 = b;
 }
 
-void spooky_init
-(
-	struct spooky_state *state,
-	uint64_t seed1,
-	uint64_t seed2
-)
+void spooky_init(struct spooky_state *state, uint64_t seed1, uint64_t seed2)
 {
 	state->m_length = 0;
 	state->m_remainder = 0;
@@ -305,18 +296,12 @@ void spooky_init
 	state->m_state[1] = seed2;
 }
 
-void spooky_update
-(
-	struct spooky_state *state,
-	const void *message,
-	size_t length
-)
+void spooky_update(struct spooky_state *state, const void *message, size_t length)
 {
 	uint64_t h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11;
 	size_t newLength = length + state->m_remainder;
 	uint8_t remainder;
-	union
-	{
+	union {
 		const uint8_t *p8;
 		uint64_t *p64;
 		size_t i;
@@ -324,8 +309,7 @@ void spooky_update
 	const uint64_t *endp;
 
 	// Is this message fragment too short?  If it is, stuff it away.
-	if (newLength < SC_BUFSIZE)
-	{
+	if (newLength < SC_BUFSIZE) {
 		memcpy(&((uint8_t *)state->m_data)[state->m_remainder], message, length);
 		state->m_length = length + state->m_length;
 		state->m_remainder = (uint8_t)newLength;
@@ -333,14 +317,11 @@ void spooky_update
 	}
 
 	// init the variables
-	if (state->m_length < SC_BUFSIZE)
-	{
+	if (state->m_length < SC_BUFSIZE) {
 		h0 = h3 = h6 = h9  = state->m_state[0];
 		h1 = h4 = h7 = h10 = state->m_state[1];
 		h2 = h5 = h8 = h11 = SC_CONST;
-	}
-	else
-	{
+	} else {
 		h0 = state->m_state[0];
 		h1 = state->m_state[1];
 		h2 = state->m_state[2];
@@ -357,8 +338,7 @@ void spooky_update
 	state->m_length = length + state->m_length;
 
 	// if we've got anything stuffed away, use it now
-	if (state->m_remainder)
-	{
+	if (state->m_remainder) {
 		uint8_t prefix = SC_BUFSIZE-state->m_remainder;
 		memcpy(&(((uint8_t *)state->m_data)[state->m_remainder]), message, prefix);
 		u.p64 = state->m_data;
@@ -366,27 +346,20 @@ void spooky_update
 		mix(&u.p64[SC_NUMVARS], &h0, &h1, &h2, &h3, &h4, &h5, &h6, &h7, &h8, &h9, &h10, &h11);
 		u.p8 = ((const uint8_t *)message) + prefix;
 		length -= prefix;
-	}
-	else
-	{
+	} else {
 		u.p8 = (const uint8_t *)message;
 	}
 
 	// handle all whole blocks of SC_BLOCKSIZE bytes
 	endp = u.p64 + (length/SC_BLOCKSIZE)*SC_NUMVARS;
 	remainder = (uint8_t)(length-((const uint8_t *)endp - u.p8));
-	if (ALLOW_UNALIGNED_READS || (u.i & 0x7) == 0)
-	{
-		while (u.p64 < endp)
-		{
+	if (ALLOW_UNALIGNED_READS || (u.i & 0x7) == 0) {
+		while (u.p64 < endp) {
 			mix(u.p64, &h0, &h1, &h2, &h3, &h4, &h5, &h6, &h7, &h8, &h9, &h10, &h11);
 			u.p64 += SC_NUMVARS;
 		}
-	}
-	else
-	{
-		while (u.p64 < endp)
-		{
+	} else {
+		while (u.p64 < endp) {
 			memcpy(state->m_data, u.p8, SC_BLOCKSIZE);
 			mix(state->m_data, &h0, &h1, &h2, &h3, &h4, &h5, &h6, &h7, &h8, &h9, &h10, &h11);
 			u.p64 += SC_NUMVARS;
@@ -412,20 +385,14 @@ void spooky_update
 	state->m_state[11] = h11;
 }
 
-void spooky_final
-(
-	struct spooky_state *state,
-	uint64_t *hash1,
-	uint64_t *hash2
-)
+void spooky_final(struct spooky_state *state, uint64_t *hash1, uint64_t *hash2)
 {
 	uint64_t h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11;
 	const uint64_t *data = (const uint64_t *)state->m_data;
 	uint8_t remainder = state->m_remainder;
 
 	// init the variables
-	if (state->m_length < SC_BUFSIZE)
-	{
+	if (state->m_length < SC_BUFSIZE) {
 		spooky_shorthash(state->m_data, state->m_length, hash1, hash2);
 		return;
 	}
@@ -443,8 +410,7 @@ void spooky_final
 	h10 = state->m_state[10];
 	h11 = state->m_state[11];
 
-	if (remainder >= SC_BLOCKSIZE)
-	{
+	if (remainder >= SC_BLOCKSIZE) {
 		// m_data can contain two blocks; handle any whole first block
 		mix(data, &h0, &h1, &h2, &h3, &h4, &h5, &h6, &h7, &h8, &h9, &h10, &h11);
 		data += SC_NUMVARS;
@@ -464,27 +430,19 @@ void spooky_final
 	*hash2 = h1;
 }
 
-void spooky_hash128
-(
-	const void *message,
-	size_t length,
-	uint64_t *hash1,
-	uint64_t *hash2
-)
+void spooky_hash128(const void *message, size_t length, uint64_t *hash1, uint64_t *hash2)
 {
 	uint64_t h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11;
 	uint64_t buf[SC_NUMVARS];
 	uint64_t *endp;
-	union
-	{
+	union {
 		const uint8_t *p8;
 		uint64_t *p64;
 		uintptr_t i;
 	} u;
 	size_t remainder;
 
-	if (length < SC_BUFSIZE)
-	{
+	if (length < SC_BUFSIZE) {
 		spooky_shorthash(message, length, hash1, hash2);
 		return;
 	}
@@ -497,18 +455,13 @@ void spooky_hash128
 	endp = u.p64 + (length/SC_BLOCKSIZE)*SC_NUMVARS;
 
 	// handle all whole blocks of SC_BLOCKSIZE bytes
-	if (ALLOW_UNALIGNED_READS || (u.i & 0x7) == 0)
-	{
-		while (u.p64 < endp)
-		{
+	if (ALLOW_UNALIGNED_READS || (u.i & 0x7) == 0) {
+		while (u.p64 < endp) {
 			mix(u.p64, &h0, &h1, &h2, &h3, &h4, &h5, &h6, &h7, &h8, &h9, &h10, &h11);
 			u.p64 += SC_NUMVARS;
 		}
-	}
-	else
-	{
-		while (u.p64 < endp)
-		{
+	} else {
+		while (u.p64 < endp) {
 			memcpy(buf, u.p64, SC_BLOCKSIZE);
 			mix(buf, &h0, &h1, &h2, &h3, &h4, &h5, &h6, &h7, &h8, &h9, &h10, &h11);
 			u.p64 += SC_NUMVARS;
@@ -528,24 +481,14 @@ void spooky_hash128
 	*hash2 = h1;
 }
 
-uint64_t spooky_hash64
-(
-	const void *message,
-	size_t length,
-	uint64_t seed
-)
+uint64_t spooky_hash64(const void *message, size_t length, uint64_t seed)
 {
 	uint64_t hash1 = seed;
 	spooky_hash128(message, length, &hash1, &seed);
 	return hash1;
 }
 
-uint32_t spooky_hash32
-(
-	const void *message,
-	size_t length,
-	uint32_t seed
-)
+uint32_t spooky_hash32(const void *message, size_t length, uint32_t seed)
 {
 	uint64_t hash1 = seed, hash2 = seed;
 	spooky_hash128(message, length, &hash1, &hash2);
