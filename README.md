@@ -1,5 +1,3 @@
-![spooky-c] (http://halobates.de/spooky-c.png)
-
 This is a C version of Bob Jenkin's spooky hash. The only advantage over
 Bob's original version is that it is in C, not C++ and comes with
 some test and benchmark code.
@@ -21,6 +19,7 @@ Quoting Bobs original description:
 	Feb  5 2012: adjusted definitions of uint* to be more portable
 	Mar 30 2012: 3 bytes/cycle, not 4.  Alpha was 4 but wasn't thorough enough.
 	Apr 27 2012: C version updated by Ziga Zupanec (agiz@github)
+	Feb 25 2015: C version converted to system library (graytshirt@github)
  
  Up to 3 bytes/cycle for long messages.  Reasonably fast for short messages.
  All 1 or 2 bit deltas achieve avalanche within 1% bias per output bit.
