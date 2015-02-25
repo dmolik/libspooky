@@ -4,7 +4,6 @@ ACLOCAL_AMFLAGS = -I build
 
 
 AM_CFLAGS = -Iinclude -Wall $(DEPS_CFLAGS)
-AM_CFLAGS += @GCOV_CFLAGS@
 
 core_src :=
 core_src += include/spooky.h
