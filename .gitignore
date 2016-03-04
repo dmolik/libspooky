@@ -17,3 +17,6 @@ src/.libs/
 src/spooky.lo
 src/spooky.o
 stamp-h1
+contrib/rpm.spec
+spooky-*.tar.gz
+pkg/spooky.pc
