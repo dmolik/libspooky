@@ -1,0 +1,77 @@
+Name:           @PACKAGE@
+Version:        @VERSION@
+Release:        1%{?dist}
+Summary:        Bob Jenkin's spooky hash for C
+
+Group:          System Environment/Libraries
+License:        GPLv3+
+URL:            @PACKAGE_URL@
+Source0:        %{name}-%{version}.tar.gz
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  gcc
+BuildRequires:  libtool
+
+%description
+This is a C version of Bob Jenkin's spooky hash. The only advantage
+over Bob's original version is that it is in C, not C++ and comes
+with some test and benchmark code.
+
+This is a very competitive hash function, but is somewhat unportable
+(64bit little endian only). It's more portable than some of the
+contenders like CityHash.
+
+%package devel
+Summary:        Bob Jenkin's spooky hash for C - Development Files
+Group:          Development/Libraries
+
+%description devel
+This is a C version of Bob Jenkin's spooky hash. The only advantage
+over Bob's original version is that it is in C, not C++ and comes
+with some test and benchmark code.
+
+This is a very competitive hash function, but is somewhat unportable
+(64bit little endian only). It's more portable than some of the
+contenders like CityHash.
+
+This package contains the header files for developing code against libspooky
+
+
+%prep
+%setup -q
+
+
+%build
+%configure
+make %{?_smp_mflags}
+
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
+
+
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+
+%files
+%defattr(-,root,root,-)
+%{_libdir}/lib%{name}.so.@ABI_CURRENT@.@ABI_REVISION@.@ABI_AGE@
+%{_libdir}/lib%{name}.so.@ABI_CURRENT@
+
+%files devel
+%defattr(-,root,root,-)
+%{_includedir}/%{name}.h
+%{_libdir}/lib%{name}.a
+%{_libdir}/lib%{name}.la
+%{_libdir}/lib%{name}.so
+%{_libdir}/pkgconfig/%{name}.pc
+
+
+%changelog
+* Thu Mar 03 2016 Dan Molik <dan@d3fy.net> 1.0.1-1
+- Initial RPM import
