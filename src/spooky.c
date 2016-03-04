@@ -13,6 +13,7 @@
 
 #include <memory.h>
 #include <spooky.h>
+#include "config.h"
 
 #if defined(__i386__) || defined(__x86_64__) // add more architectures here
 #define ALLOW_UNALIGNED_READS 1
