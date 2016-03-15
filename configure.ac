@@ -13,7 +13,6 @@ AM_INIT_AUTOMAKE([-Wall -Werror subdir-objects])
 AC_PROG_CC
 AC_PROG_INSTALL
 m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
-LT_INIT
 
 PKG_PROG_PKG_CONFIG
 AC_C_INLINE
@@ -24,5 +23,6 @@ AC_ARG_WITH([pkgconfigdir],
     [pkgconfigdir='${libdir}/pkgconfig'])
 AC_SUBST([pkgconfigdir])
 
+LT_INIT
 AC_CONFIG_FILES([Makefile contrib/rpm.spec pkg/spooky.pc])
 AC_OUTPUT

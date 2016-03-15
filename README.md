@@ -8,7 +8,7 @@ INSTALLATION
 
 To install libspooky from source execute the following steps:
 
-	git clone https://github.com/GrayTShirt/libspooky.git
+	git clone https://github.com/D3fy/libspooky.git
 	cd libspooky
 	./bootstrap
 	./configure
