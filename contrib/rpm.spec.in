@@ -73,5 +73,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Mar 03 2016 Dan Molik <dan@d3fy.net> 1.0.0-1
+* Thu Mar 03 2016 Dan Molik <dan@d3fy.net> 1.0.1-1
 - Initial RPM import

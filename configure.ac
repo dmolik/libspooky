@@ -1,11 +1,11 @@
-
-
 AC_INIT([spooky], [1.0.0], [bugs@d3fy.net],, [http://github.com/D3fy/spooky])
 AC_PREREQ(2.63)
+
 AC_CONFIG_SRCDIR([include/spooky.h])
 AC_CONFIG_AUX_DIR([build])
 AC_CONFIG_MACRO_DIR([build])
 AC_CONFIG_HEADER([config.h])
+
 AX_DEFINE_ABI_VERSION([1], [0], [0])
 
 AM_INIT_AUTOMAKE([-Wall -Werror subdir-objects])
@@ -22,6 +22,7 @@ AC_ARG_WITH([pkgconfigdir],
     [pkgconfigdir="$withval"],
     [pkgconfigdir='${libdir}/pkgconfig'])
 AC_SUBST([pkgconfigdir])
+
 
 LT_INIT
 AC_CONFIG_FILES([Makefile contrib/rpm.spec pkg/spooky.pc])
